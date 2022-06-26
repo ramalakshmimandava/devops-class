@@ -1,15 +1,22 @@
 pipeline{
   agent any
-    stages{
-        stage('Build'){
-          steps{
-              echo "Building is done"
-          }
-           stage('Test'){
-          steps{
-              echo "Testing is done"
-          }
-            
+       stages {
+        /* checkout repo */
+          stage('Checkout SCM') {
+              steps {
+                      checkout([
+                       $class: 'GitSCM',
+                       branches: [[name: 'master']],
+                       userRemoteConfigs: [[
+                          url: 'https://github.com/ramalakshmimandava/devops-class.git',
+                          credentialsId: '',
+                       ]]
+                      ])
+                  }
+              }
+         stage('Test'){
+              steps{
+                  echo "Testing is done"
+              }
         }
-    }
 }
